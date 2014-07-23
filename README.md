@@ -1,4 +1,4 @@
-# Image Viewer for Hoccer Wall
+# Image Reviewer for Hoccer Wall
 
 ## Development Setup
 
