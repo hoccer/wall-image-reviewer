@@ -1,9 +1,10 @@
 {
-  "name": "wall-image-viewer",
+  "name": "wall-image-reviewer",
   "description": "Viewer Component for Hoccer Wall",
   "version": "0.1.0",
-  "repository": "git@github.com:hoccer/wall-image-viewer.git",
+  "repository": "git@github.com:hoccer/wall-image-reviewer.git",
   "dependencies": {
+    "talk-webclient-model": "git+ssh://git@github.com:hoccer/talk-webclient-js-model",
     "backbone": "^1.1.2",
     "backbone-react-component": "^0.6.5",
     "jquery": "^2.1.1",
