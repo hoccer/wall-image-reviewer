@@ -13,9 +13,9 @@ var TalkWebClientModel = require('talk-webclient-js-model');
 Backbone.$ = jQuery;
 
 // Initialize image collection
-var images = new TalkWebClientModel.Model.DownloadCollection([],[{
+var images = new TalkWebClientModel.Model.DownloadCollection({}, {
 	backendUrl: config.backendUrl
-}]);
+});
 images.fetch({data: {mediaType: 'image'}});
 
 // Update image collection with WebSocket updates
