@@ -1,36 +1,40 @@
 'use strict';
 
 var Backbone = require('backbone');
-var jQuery = require('jquery');
+var $ = require('jquery');
 var React = require('react');
 var WebClient = require('talk-webclient-js-model');
 
 var config = require('./config');
-var imageGridView = require('./views/image-grid-view');
+var imageListView = require('./views/image-list-view');
 
 // Help Backbone find jQuery
-Backbone.$ = jQuery;
+Backbone.$ = $;
 
 // Initialize image collection
-var images = new WebClient.Model.DownloadCollection(null, {
+var imageCollection = new WebClient.Model.DownloadCollection(null, {
   backendUrl: config.backendUrl
 });
-images.fetch({data: {mediaType: 'image'}});
 
-// Update image collection with WebSocket updates
-var updateUrl = function(backendUrl) {
-  var url = backendUrl ?
-            backendUrl.replace('http', 'ws') :
-            'ws://' + window.location.host;
-  return url + '/updates';
-};
+imageCollection.fetch({data: {mediaType: 'image'}}).then(function() {
+  // Update image collection with WebSocket updates
+  var updateUrl = function(backendUrl) {
+    var url = backendUrl ?
+              backendUrl.replace('http', 'ws') :
+              'ws://' + window.location.host;
+    return url + '/updates';
+  };
 
-var updater = new WebClient.WebSocket.Observer(
-	updateUrl(config.backendUrl)
-);
-updater.subscribe('/api/downloads', images, function(download) {
-  return download.mediaType === 'image';
+  var observer = new WebClient.WebSocket.Observer(updateUrl(config.backendUrl));
+  observer.subscribe('/api/downloads', function(download) {
+    if (download.mediaType === 'image') {
+      imageCollection.add(download, {at: 0, merge: true});
+    }
+  });
+
+  // Render root view component
+  React.renderComponent(
+    imageListView({collection: imageCollection}), document.body);
 });
 
-// Render root view component
-React.renderComponent(imageGridView({collection: images}), document.body);
+
