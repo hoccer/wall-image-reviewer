@@ -1,12 +1,13 @@
 'use strict';
 
 var Backbone = require('backbone');
-var $ = require('jquery');
 var React = require('react');
 var WebClient = require('talk-webclient-js-model');
+var $ = require('jquery');
+var _ = require('underscore');
 
 var config = require('./config');
-var imageListView = require('./views/image-list-view');
+var imageApprovalComponent = require('./components/image-approval-component');
 
 // Help Backbone find jQuery
 Backbone.$ = $;
@@ -14,6 +15,28 @@ Backbone.$ = $;
 // Initialize image collection
 var imageCollection = new WebClient.Model.DownloadCollection(null, {
   backendUrl: config.backendUrl
+});
+
+// Initialize Backbone router
+var Router = Backbone.Router.extend({
+  routes: {
+    'images/:id': 'image',
+    '*path': 'default'
+  },
+
+  image: function(id) {
+    React.renderComponent(imageApprovalComponent({
+      collection: imageCollection,
+      imageId: id
+    }), document.body);
+  },
+
+  default: function() {
+    var pendingImages = imageCollection.where({'approvalState': 'PENDING'});
+    var startImage = _.last(pendingImages);
+
+    Backbone.history.navigate('/images/' + startImage.id, {trigger: true});
+  }
 });
 
 imageCollection.fetch({data: {mediaType: 'image'}}).then(function() {
@@ -32,9 +55,7 @@ imageCollection.fetch({data: {mediaType: 'image'}}).then(function() {
     }
   });
 
-  // Render root view component
-  React.renderComponent(
-    imageListView({collection: imageCollection}), document.body);
+  // Start Backbone router
+  new Router();
+  Backbone.history.start();
 });
-
-
