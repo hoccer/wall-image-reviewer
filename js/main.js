@@ -28,7 +28,7 @@ var Router = Backbone.Router.extend({
     React.renderComponent(imageApprovalComponent({
       collection: imageCollection,
       imageId: id
-    }), document.body);
+    }), document.getElementById('container'));
   },
 
   default: function() {
