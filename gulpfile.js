@@ -18,7 +18,9 @@ gulp.task('browserify', function() {
 gulp.task('less', function() {
   gulp.src('./less/main.less')
     .pipe(sourcemaps.init())
-    .pipe(less())
+    .pipe(less({
+      paths: ['./node_modules/bootstrap/less']
+    }))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('./dist'))
     .pipe(connect.reload());
