@@ -7,7 +7,7 @@ var $ = require('jquery');
 var _ = require('underscore');
 
 var config = require('./config');
-var imageApprovalComponent = require('./components/image-approval-component');
+var rootComponent = require('./components/root-component');
 
 // Help Backbone find jQuery
 Backbone.$ = $;
@@ -25,10 +25,10 @@ var Router = Backbone.Router.extend({
   },
 
   image: function(id) {
-    React.renderComponent(imageApprovalComponent({
+    React.renderComponent(rootComponent({
       collection: imageCollection,
       imageId: id
-    }), document.getElementById('container'));
+    }), document.body);
   },
 
   default: function() {
