@@ -2,6 +2,7 @@
 
 var React = require('react');
 
+var approvalComponent = require('./approval-component');
 var imageComponent = require('./image-component');
 var navigationComponent = require('./navigation-component');
 
@@ -24,7 +25,8 @@ module.exports = React.createClass({
       imageComponent({
         key: this.props.image.id,
         imageUrl: this.props.image.fileUrl()
-      })
+      }),
+      approvalComponent()
     ]);
   }
 });
