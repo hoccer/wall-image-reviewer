@@ -5,7 +5,6 @@
   "repository": "git@github.com:hoccer/wall-image-reviewer.git",
   "dependencies": {
     "backbone": "^1.1.2",
-    "backbone-react-component": "^0.6.5",
     "bootstrap": "^3.2.0",
     "jquery": "^2.1.1",
     "react": "^0.10.0",

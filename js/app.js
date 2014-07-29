@@ -18,8 +18,8 @@ module.exports = Backbone.Router.extend({
 
   image: function(id) {
     React.renderComponent(rootComponent({
-      collection: this.imageCollection,
-      imageId: id
+      imageCollection: this.imageCollection,
+      image: this.imageCollection.get(id)
     }), document.body);
   },
 

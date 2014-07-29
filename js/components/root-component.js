@@ -1,26 +1,29 @@
 'use strict';
 
-var BackboneReactComponent = require('backbone-react-component');
 var React = require('react');
 
 var imageComponent = require('./image-component');
 var navigationComponent = require('./navigation-component');
 
 module.exports = React.createClass({
-  mixins: [BackboneReactComponent.mixin],
+  componentWillMount: function() {
+    this.props.imageCollection.on('change', this.forceUpdate, this);
+  },
+
+  componentWillUnmount: function() {
+    this.props.imageCollection.off('change', this.forceUpdate, this);
+  },
 
   render: function() {
-    var collection = this.getCollection();
-    var imageId = this.props.imageId;
-    var image = collection.get(imageId);
-
     return React.DOM.div({className: 'fullscreen'}, [
       navigationComponent({
-        collection: collection,
-        model: image
+        key: 'nav',
+        imageCollection: this.props.imageCollection,
+        image: this.props.image
       }),
       imageComponent({
-        model: image
+        key: this.props.image.id,
+        imageUrl: this.props.image.fileUrl()
       })
     ]);
   }

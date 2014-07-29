@@ -1,13 +1,12 @@
 'use strict';
 
-var BackboneReactComponent = require('backbone-react-component');
+var Backbone = require('backbone');
 var React = require('react');
 
 module.exports = React.createClass({
-  mixins: [BackboneReactComponent.mixin],
-
   idAtIndex: function(index) {
-    var collection = this.getCollection();
+    var collection = this.props.imageCollection;
+
     if (index >= 0 && index < collection.length) {
       return collection.at(index).id;
     } else {
@@ -18,9 +17,12 @@ module.exports = React.createClass({
   navigationButton: function(title, position, imageId) {
     if (imageId !== null) {
       return React.DOM.button({
+        key: title,
         type: 'button',
         className: 'btn btn-default position-' + position,
-        onClick: function() { console.log('navigating to ' + imageId); }
+        onClick: function() {
+          Backbone.history.navigate('/images/' + imageId, {trigger: true});
+        }
       }, title);
     } else {
       return null;
@@ -28,7 +30,7 @@ module.exports = React.createClass({
   },
 
   render: function() {
-    var index = this.getCollection().indexOf(this.getModel());
+    var index = this.props.imageCollection.indexOf(this.props.image);
 
     return React.DOM.div({className: 'fullscreen'}, [
       this.navigationButton('PREV.', 'left', this.idAtIndex(index + 1)),
