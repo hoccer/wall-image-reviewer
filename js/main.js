@@ -1,13 +1,11 @@
 'use strict';
 
 var Backbone = require('backbone');
-var React = require('react');
 var WebClient = require('talk-webclient-js-model');
 var $ = require('jquery');
-var _ = require('underscore');
 
+var App = require('./app');
 var config = require('./config');
-var rootComponent = require('./components/root-component');
 
 // Help Backbone find jQuery
 Backbone.$ = $;
@@ -15,28 +13,6 @@ Backbone.$ = $;
 // Initialize image collection
 var imageCollection = new WebClient.Model.DownloadCollection(null, {
   backendUrl: config.backendUrl
-});
-
-// Initialize Backbone router
-var Router = Backbone.Router.extend({
-  routes: {
-    'images/:id': 'image',
-    '*path': 'default'
-  },
-
-  image: function(id) {
-    React.renderComponent(rootComponent({
-      collection: imageCollection,
-      imageId: id
-    }), document.body);
-  },
-
-  default: function() {
-    var pendingImages = imageCollection.where({'approvalState': 'PENDING'});
-    var startImage = _.last(pendingImages);
-
-    Backbone.history.navigate('/images/' + startImage.id, {trigger: true});
-  }
 });
 
 imageCollection.fetch({data: {mediaType: 'image'}}).then(function() {
@@ -56,6 +32,6 @@ imageCollection.fetch({data: {mediaType: 'image'}}).then(function() {
   });
 
   // Start Backbone router
-  new Router();
+  new App(imageCollection);
   Backbone.history.start();
 });
