@@ -23,10 +23,13 @@ module.exports = React.createClass({
         image: this.props.image
       }),
       imageComponent({
-        key: this.props.image.id,
+        key: 'image',
         imageUrl: this.props.image.fileUrl()
       }),
-      approvalComponent()
+      approvalComponent({
+        key: 'approval',
+        image: this.props.image
+      })
     ]);
   }
 });

@@ -1,21 +1,29 @@
 'use strict';
 
-var Backbone = require('backbone');
 var React = require('react');
 
 module.exports = React.createClass({
-  approvalButton: function(title, position) {
-    return React.DOM.button({
+  approvalButton: function(title, activeTitle, position, activeColor, approvalState) {
+    var active = this.props.image.get('approvalState') === approvalState;
+    var buttonStyle = active ? 'btn-' + activeColor : 'btn-default';
+
+    var attributes = {
       key: title,
       type: 'button',
-      className: 'btn btn-default position-' + position
-    }, title);
+      className: 'btn ' + buttonStyle + ' position-' + position
+    };
+
+    if (active) {
+      attributes.disabled = 'disabled';
+    }
+
+    return React.DOM.button(attributes, active ? activeTitle : title);
   },
 
   render: function() {
     return React.DOM.div({className: 'fullscreen'}, [
-      this.approvalButton('ACCEPT', 'top'),
-      this.approvalButton('REJECT', 'bottom')
+      this.approvalButton('ACCEPT', 'ACCEPTED', 'top', 'success', 'APPROVED'),
+      this.approvalButton('REJECT', 'REJECTED', 'bottom', 'danger', 'DECLINED')
     ]);
   }
 });
