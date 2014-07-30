@@ -10,7 +10,10 @@ module.exports = React.createClass({
     var attributes = {
       key: title,
       type: 'button',
-      className: 'btn ' + buttonStyle + ' position-' + position
+      className: 'btn ' + buttonStyle + ' position-' + position,
+      onClick: (function() {
+        this.props.image.save({approvalState: approvalState}, {patch: true});
+      }).bind(this)
     };
 
     if (active) {
