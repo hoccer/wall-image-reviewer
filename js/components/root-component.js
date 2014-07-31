@@ -33,7 +33,17 @@ module.exports = React.createClass({
     this.setState({image: this.state.image});
   },
 
-  imageAtIndex: function(index) {
+  nextImage: function() {
+    return this.imageAtOffset(-1);
+  },
+
+  previousImage: function() {
+    return this.imageAtOffset(1);
+  },
+
+  imageAtOffset: function(offset) {
+    var index = this.props.images.indexOf(this.state.image) + offset;
+
     if (index >= 0 && index < this.props.images.length) {
       return this.props.images.at(index);
     } else {
@@ -47,6 +57,7 @@ module.exports = React.createClass({
 
   setApprovalState: function(approvalState) {
     this.state.image.save({approvalState: approvalState}, {patch: true});
+    this.navigate(this.nextImage());
   },
 
   render: function() {
@@ -74,9 +85,8 @@ module.exports = React.createClass({
       })
     ];
 
-    var index = this.props.images.indexOf(this.state.image);
-    var previousImage = this.imageAtIndex(index + 1);
-    var nextImage = this.imageAtIndex(index - 1);
+    var previousImage = this.previousImage();
+    var nextImage = this.nextImage();
 
     if (previousImage) {
       children.push(new Button({
