@@ -12,31 +12,21 @@ module.exports = React.createClass({
       'approvalState': 'PENDING'
     });
 
-    var initialImage = _.last(pendingImages) || this.props.images.first();
-    return this.getStateForImage(initialImage);
-  },
-
-  getStateForImage: function(image) {
-    var index = this.props.images.indexOf(image);
-
     return {
-      previousImageId: this.imageIdAtIndex(index + 1),
-      nextImageId: this.imageIdAtIndex(index - 1),
-      image: image
+      image: _.last(pendingImages) || this.props.images.first()
     };
   },
 
-  imageIdAtIndex: function(index) {
+  imageAtIndex: function(index) {
     if (index >= 0 && index < this.props.images.length) {
-      return this.props.images.at(index).id;
+      return this.props.images.at(index);
     } else {
       return null;
     }
   },
 
-  navigate: function(imageId) {
-    var image = this.props.images.get(imageId);
-    this.setState(this.getStateForImage(image));
+  navigate: function(image) {
+    this.setState({image: image});
   },
 
   setApprovalState: function(approvalState) {
@@ -47,17 +37,7 @@ module.exports = React.createClass({
     var isAccepted = this.state.image.get('approvalState') === 'APPROVED';
     var isRejected = this.state.image.get('approvalState') === 'DECLINED';
 
-    return React.DOM.div({className: 'fullscreen'}, [
-      new Button({
-        title: 'NEXT',
-        position: 'right',
-        onClick: _.partial(this.navigate, this.state.nextImageId)
-      }),
-      new Button({
-        title: 'PREV.',
-        position: 'left',
-        onClick: _.partial(this.navigate, this.state.previousImageId)
-      }),
+    var children = [
       new Button({
         title: isAccepted ? 'ACCEPTED' : 'ACCEPT',
         color: isAccepted ? 'success' : 'default',
@@ -73,6 +53,28 @@ module.exports = React.createClass({
       new ImageView({
         imageUrl: this.state.image.fileUrl()
       })
-    ]);
+    ];
+
+    var index = this.props.images.indexOf(this.state.image);
+    var previousImage = this.imageAtIndex(index + 1);
+    var nextImage = this.imageAtIndex(index - 1);
+
+    if (nextImage) {
+      children.push(new Button({
+        title: 'NEXT',
+        position: 'right',
+        onClick: _.partial(this.navigate, nextImage)
+      }));
+    }
+
+    if (previousImage) {
+      children.push(new Button({
+        title: 'PREV.',
+        position: 'left',
+        onClick: _.partial(this.navigate, previousImage)
+      }));
+    }
+
+    return React.DOM.div({className: 'fullscreen'}, children);
   }
 });
