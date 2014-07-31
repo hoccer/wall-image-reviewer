@@ -51,18 +51,21 @@ module.exports = React.createClass({
 
     var children = [
       new Button({
+        key: 'accept',
         title: isAccepted ? 'ACCEPTED' : 'ACCEPT',
         color: isAccepted ? 'success' : 'default',
         position: 'top',
         onClick: _.partial(this.setApprovalState, 'APPROVED')
       }),
       new Button({
+        key: 'reject',
         title: isRejected ? 'REJECTED' : 'REJECT',
         color: isRejected ? 'danger' : 'default',
         position: 'bottom',
         onClick: _.partial(this.setApprovalState, 'DECLINED')
       }),
       new ImageView({
+        key: 'image',
         imageUrl: this.state.image.fileUrl()
       })
     ];
@@ -71,19 +74,21 @@ module.exports = React.createClass({
     var previousImage = this.imageAtIndex(index + 1);
     var nextImage = this.imageAtIndex(index - 1);
 
-    if (nextImage) {
-      children.push(new Button({
-        title: 'NEXT',
-        position: 'right',
-        onClick: _.partial(this.navigate, nextImage)
-      }));
-    }
-
     if (previousImage) {
       children.push(new Button({
+        key: 'previous',
         title: 'PREV.',
         position: 'left',
         onClick: _.partial(this.navigate, previousImage)
+      }));
+    }
+
+    if (nextImage) {
+      children.push(new Button({
+        key: 'next',
+        title: 'NEXT',
+        position: 'right',
+        onClick: _.partial(this.navigate, nextImage)
       }));
     }
 
