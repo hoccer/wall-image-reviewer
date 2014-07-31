@@ -17,6 +17,18 @@ module.exports = React.createClass({
     };
   },
 
+  componentWillMount: function() {
+    this.props.images.on('change', this.handleChange, this);
+  },
+
+  componentWillUnmount: function() {
+    this.props.images.off('change', this.handleChange, this);
+  },
+
+  handleChange: function() {
+    this.setState({image: this.state.image});
+  },
+
   imageAtIndex: function(index) {
     if (index >= 0 && index < this.props.images.length) {
       return this.props.images.at(index);
