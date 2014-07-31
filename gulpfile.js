@@ -12,6 +12,7 @@ var distFolder = './dist';
 
 gulp.task('browserify', function() {
   var sourceMap = 'bundle.map.json';
+
   return browserify({debug: true})
     .add('./js/main.js')
     .plugin('minifyify', {
