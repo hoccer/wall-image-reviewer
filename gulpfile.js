@@ -11,8 +11,8 @@ var sourcemaps = require('gulp-sourcemaps');
 var production = gutil.env.type === 'production';
 
 gulp.task('browserify', function() {
-  return browserify('./js/main.js')
-    .bundle({debug: !production})
+  return browserify('./js/main.js', {debug: !production})
+    .bundle()
     .pipe(source('bundle.js'))
     .pipe(gulp.dest('./dist'))
     .pipe(connect.reload());
