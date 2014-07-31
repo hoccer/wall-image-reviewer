@@ -8,13 +8,17 @@ var ImageView = require('./image-view');
 
 module.exports = React.createClass({
   getInitialState: function() {
+    return {
+      image: this.getInitialImage()
+    };
+  },
+
+  getInitialImage: function() {
     var pendingImages = this.props.images.where({
       'approvalState': 'PENDING'
     });
 
-    return {
-      image: _.last(pendingImages) || this.props.images.first()
-    };
+    return _.last(pendingImages) || this.props.images.first();
   },
 
   componentWillMount: function() {
