@@ -3,13 +3,16 @@
 var browserify = require('browserify');
 var connect = require('gulp-connect');
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 var less = require('gulp-less');
 var source = require('vinyl-source-stream');
 var sourcemaps = require('gulp-sourcemaps');
 
+var production = gutil.env.type === 'production';
+
 gulp.task('browserify', function() {
   return browserify('./js/main.js')
-    .bundle({ debug: true })
+    .bundle({debug: !production})
     .pipe(source('bundle.js'))
     .pipe(gulp.dest('./dist'))
     .pipe(connect.reload());
