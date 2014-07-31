@@ -22,8 +22,7 @@ module.exports = React.createClass({
     return {
       previousImageId: this.imageIdAtIndex(index + 1),
       nextImageId: this.imageIdAtIndex(index - 1),
-      image: image,
-      approvalState: image.get('approvalState')
+      image: image
     };
   },
 
@@ -45,8 +44,8 @@ module.exports = React.createClass({
   },
 
   render: function() {
-    var isAccepted = this.state.approvalState === 'APPROVED';
-    var isRejected = this.state.approvalState === 'DECLINED';
+    var isAccepted = this.state.image.get('approvalState') === 'APPROVED';
+    var isRejected = this.state.image.get('approvalState') === 'DECLINED';
 
     return React.DOM.div({className: 'fullscreen'}, [
       new Button({
