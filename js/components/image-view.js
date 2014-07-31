@@ -21,8 +21,10 @@ module.exports = React.createClass({
     this.preloadImage = null;
   },
 
-  componentWillReceiveProps: function() {
-    this.setState({loaded: false});
+  componentWillReceiveProps: function(nextProps) {
+    if (nextProps.imageUrl !== this.props.imageUrl) {
+      this.setState({loaded: false});
+    }
   },
 
   render: function() {
