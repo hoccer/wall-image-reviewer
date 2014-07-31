@@ -3,10 +3,34 @@
 var React = require('react');
 
 module.exports = React.createClass({
+  getInitialState: function() {
+    return {
+      loaded: false
+    };
+  },
+
+  componentWillMount: function() {
+    this.preloadImage = new Image();
+
+    this.preloadImage.onload = (function() {
+      this.setState({loaded: true});
+    }).bind(this);
+  },
+
+  componentWillUnmount: function() {
+    this.preloadImage = null;
+  },
+
+  componentWillReceiveProps: function() {
+    this.setState({loaded: false});
+  },
+
   render: function() {
+    this.preloadImage.src = this.props.imageUrl;
+
     return React.DOM.img({
       className: 'image',
-      src: this.props.imageUrl
+      src: this.state.loaded ? this.props.imageUrl : 'dist/img/loading.gif'
     });
   }
 });
