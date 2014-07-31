@@ -9,11 +9,11 @@ var ImageView = require('./image-view');
 module.exports = React.createClass({
   getInitialState: function() {
     return {
-      image: this.getInitialImage()
+      image: this.getOldestPendingImage()
     };
   },
 
-  getInitialImage: function() {
+  getOldestPendingImage: function() {
     var pendingImages = this.props.images.where({
       'approvalState': 'PENDING'
     });
