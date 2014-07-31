@@ -22,14 +22,27 @@ module.exports = React.createClass({
   },
 
   componentWillMount: function() {
+    this.props.images.on('add', this.handleAdd, this);
     this.props.images.on('change', this.handleChange, this);
   },
 
   componentWillUnmount: function() {
+    this.props.images.off('add', this.handleAdd, this);
     this.props.images.off('change', this.handleChange, this);
   },
 
-  handleChange: function() {
+  handleAdd: function(addedImage) {
+    var currentIsPending = this.state.image.get('approvalState') === 'PENDING';
+    var addedIsNext = this.nextImage().id === addedImage.id;
+
+    if (!currentIsPending && addedIsNext) {
+      this.setState({image: addedImage});
+    } else {
+      this.setState({image: this.state.image});
+    }
+  },
+
+  handleChange: function(image) {
     this.setState({image: this.state.image});
   },
 
