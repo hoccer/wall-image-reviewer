@@ -57,7 +57,12 @@ module.exports = React.createClass({
 
   setApprovalState: function(approvalState) {
     this.state.image.save({approvalState: approvalState}, {patch: true});
-    this.navigate(this.nextImage());
+
+    var nextImage = this.nextImage();
+
+    if (nextImage) {
+      this.navigate(nextImage);
+    }
   },
 
   render: function() {
