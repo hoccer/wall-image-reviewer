@@ -8,7 +8,7 @@
     "bootstrap": "^3.2.0",
     "jquery": "^2.1.1",
     "react": "^0.11.1",
-    "talk-webclient-model": "git+ssh://git@github.com:hoccer/talk-webclient-js-model",
+    "talk-webclient-js-model": "git+ssh://git@github.com:hoccer/talk-webclient-js-model.git",
     "underscore": "^1.6.0"
   },
   "devDependencies": {
