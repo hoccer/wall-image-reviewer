@@ -81,6 +81,10 @@ module.exports = React.createClass({
   },
 
   render: function() {
+    if (!this.state.image) {
+      return null;
+    }
+
     var isAccepted = this.state.image.get('approvalState') === 'APPROVED';
     var isRejected = this.state.image.get('approvalState') === 'DECLINED';
 
