@@ -1,26 +1,78 @@
 'use strict';
 
 var React = require('react');
+var _ = require('underscore');
 
-var approvalComponent = require('./approval-component');
-var imageComponent = require('./image-component');
-var navigationComponent = require('./navigation-component');
+var Button = require('./button');
+var ImageView = require('./image-view');
 
 module.exports = React.createClass({
+  getInitialState: function() {
+    var pendingImages = this.props.images.where({
+      'approvalState': 'PENDING'
+    });
+
+    var initialImage = _.last(pendingImages) || this.props.images.first();
+    return this.getStateForImage(initialImage);
+  },
+
+  getStateForImage: function(image) {
+    var index = this.props.images.indexOf(image);
+
+    return {
+      previousImageId: this.imageIdAtIndex(index + 1),
+      nextImageId: this.imageIdAtIndex(index - 1),
+      image: image,
+      approvalState: image.get('approvalState')
+    };
+  },
+
+  imageIdAtIndex: function(index) {
+    if (index >= 0 && index < this.props.images.length) {
+      return this.props.images.at(index).id;
+    } else {
+      return null;
+    }
+  },
+
+  navigate: function(imageId) {
+    var image = this.props.images.get(imageId);
+    this.setState(this.getStateForImage(image));
+  },
+
+  setApprovalState: function(approvalState) {
+    this.state.image.save({approvalState: approvalState}, {patch: true});
+  },
+
   render: function() {
+    var isAccepted = this.state.approvalState === 'APPROVED';
+    var isRejected = this.state.approvalState === 'DECLINED';
+
     return React.DOM.div({className: 'fullscreen'}, [
-      navigationComponent({
-        key: 'nav',
-        imageCollection: this.props.imageCollection,
-        image: this.props.image
+      new Button({
+        title: 'NEXT',
+        position: 'right',
+        onClick: _.partial(this.navigate, this.state.nextImageId)
       }),
-      imageComponent({
-        key: 'image',
-        imageUrl: this.props.image.fileUrl()
+      new Button({
+        title: 'PREV.',
+        position: 'left',
+        onClick: _.partial(this.navigate, this.state.previousImageId)
       }),
-      approvalComponent({
-        key: 'approval',
-        image: this.props.image
+      new Button({
+        title: isAccepted ? 'ACCEPTED' : 'ACCEPT',
+        color: isAccepted ? 'success' : 'default',
+        position: 'top',
+        onClick: _.partial(this.setApprovalState, 'APPROVED')
+      }),
+      new Button({
+        title: isRejected ? 'REJECTED' : 'REJECT',
+        color: isRejected ? 'danger' : 'default',
+        position: 'bottom',
+        onClick: _.partial(this.setApprovalState, 'DECLINED')
+      }),
+      new ImageView({
+        imageUrl: this.state.image.fileUrl()
       })
     ]);
   }

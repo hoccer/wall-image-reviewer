@@ -1,21 +1,22 @@
 'use strict';
 
 var Backbone = require('backbone');
+var React = require('react');
 var WebClient = require('talk-webclient-js-model');
 var $ = require('jquery');
 
-var App = require('./app');
 var config = require('./config');
+var RootComponent = require('./components/root-component');
 
 // Help Backbone find jQuery
 Backbone.$ = $;
 
 // Initialize image collection
-var imageCollection = new WebClient.Model.DownloadCollection(null, {
+var images = new WebClient.Model.DownloadCollection(null, {
   backendUrl: config.backendUrl
 });
 
-imageCollection.fetch({data: {mediaType: 'image'}}).then(function() {
+images.fetch({data: {mediaType: 'image'}}).then(function() {
   // Update image collection with WebSocket updates
   var updateUrl = function(backendUrl) {
     var url = backendUrl ?
@@ -27,11 +28,13 @@ imageCollection.fetch({data: {mediaType: 'image'}}).then(function() {
   var observer = new WebClient.WebSocket.Observer(updateUrl(config.backendUrl));
   observer.subscribe('/api/downloads', function(download) {
     if (download.mediaType === 'image') {
-      imageCollection.add(download, {at: 0, merge: true});
+      images.add(download, {at: 0, merge: true});
     }
   });
 
-  // Start Backbone router
-  new App(imageCollection);
-  Backbone.history.start();
+  // Render root component
+  React.renderComponent(
+    new RootComponent({images: images}),
+    document.body
+  );
 });
