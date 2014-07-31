@@ -32,13 +32,17 @@ module.exports = React.createClass({
   },
 
   handleAdd: function(addedImage) {
-    var currentIsPending = this.state.image.get('approvalState') === 'PENDING';
-    var addedIsNext = this.nextImage().id === addedImage.id;
+    if (this.state.image) {
+      var currentIsPending = this.state.image.get('approvalState') === 'PENDING';
+      var addedIsNext = this.nextImage().id === addedImage.id;
 
-    if (!currentIsPending && addedIsNext) {
-      this.setState({image: addedImage});
+      if (!currentIsPending && addedIsNext) {
+        this.setState({image: addedImage});
+      } else {
+        this.setState({image: this.state.image});
+      }
     } else {
-      this.setState({image: this.state.image});
+      this.setState({image: addedImage});
     }
   },
 
