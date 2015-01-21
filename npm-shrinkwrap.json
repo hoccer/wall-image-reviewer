@@ -1,0 +1,88 @@
+{
+  "name": "wall-image-reviewer",
+  "version": "0.1.0",
+  "dependencies": {
+    "backbone": {
+      "version": "1.1.2",
+      "from": "backbone@>=1.1.2 <2.0.0",
+      "resolved": "https://registry.npmjs.org/backbone/-/backbone-1.1.2.tgz"
+    },
+    "bootstrap": {
+      "version": "3.3.2",
+      "from": "bootstrap@>=3.2.0 <4.0.0",
+      "resolved": "https://registry.npmjs.org/bootstrap/-/bootstrap-3.3.2.tgz"
+    },
+    "jquery": {
+      "version": "2.1.3",
+      "from": "jquery@>=2.1.1 <3.0.0",
+      "resolved": "https://registry.npmjs.org/jquery/-/jquery-2.1.3.tgz"
+    },
+    "react": {
+      "version": "0.11.2",
+      "from": "react@>=0.11.1 <0.12.0",
+      "resolved": "https://registry.npmjs.org/react/-/react-0.11.2.tgz",
+      "dependencies": {
+        "envify": {
+          "version": "2.0.1",
+          "from": "envify@>=2.0.0 <3.0.0",
+          "resolved": "https://registry.npmjs.org/envify/-/envify-2.0.1.tgz",
+          "dependencies": {
+            "xtend": {
+              "version": "2.1.2",
+              "from": "xtend@>=2.1.2 <2.2.0",
+              "dependencies": {
+                "object-keys": {
+                  "version": "0.4.0",
+                  "from": "object-keys@>=0.4.0 <0.5.0"
+                }
+              }
+            },
+            "through": {
+              "version": "2.3.6",
+              "from": "through@>=2.3.4 <2.4.0",
+              "resolved": "https://registry.npmjs.org/through/-/through-2.3.6.tgz"
+            },
+            "esprima-fb": {
+              "version": "3001.1.0-dev-harmony-fb",
+              "from": "esprima-fb@>=3001.1.0-dev-harmony-fb <3001.2.0",
+              "resolved": "https://registry.npmjs.org/esprima-fb/-/esprima-fb-3001.0001.0000-dev-harmony-fb.tgz"
+            },
+            "jstransform": {
+              "version": "3.0.0",
+              "from": "jstransform@>=3.0.0 <3.1.0",
+              "resolved": "https://registry.npmjs.org/jstransform/-/jstransform-3.0.0.tgz",
+              "dependencies": {
+                "base62": {
+                  "version": "0.1.1",
+                  "from": "base62@0.1.1",
+                  "resolved": "https://registry.npmjs.org/base62/-/base62-0.1.1.tgz"
+                },
+                "source-map": {
+                  "version": "0.1.31",
+                  "from": "source-map@0.1.31",
+                  "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.1.31.tgz",
+                  "dependencies": {
+                    "amdefine": {
+                      "version": "0.1.0",
+                      "from": "amdefine@>=0.0.4"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "talk-webclient-js-model": {
+      "version": "0.1.0",
+      "from": "../../../../../var/folders/46/nl4v55655bbdxpb_56v7vcvr0000gp/T/npm-2262-e8386d84/1421843578448-0.6919521333184093/f2a656f9a6c7b6fcec79f7ba79daefdb2b329248",
+      "resolved": "git+ssh://git@github.com:hoccer/talk-webclient-js-model.git#f2a656f9a6c7b6fcec79f7ba79daefdb2b329248"
+    },
+    "underscore": {
+      "version": "1.7.0",
+      "from": "underscore@>=1.6.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/underscore/-/underscore-1.7.0.tgz"
+    }
+  }
+}
